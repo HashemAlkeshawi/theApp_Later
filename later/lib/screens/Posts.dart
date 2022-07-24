@@ -1,9 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expendable_fab/expendable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/widgets/post_summary.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
+import '../appRouter.dart';
+import '../posts/facebook/face_create.dart';
+import '../posts/instagram/insta_create.dart';
+import '../posts/twitter/twitter_create.dart';
 import '../widgets/BottomNavigatonBar.dart';
 
 class Posts extends StatelessWidget {
@@ -14,6 +19,25 @@ class Posts extends StatelessWidget {
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      floatingActionButton: ExpendableFab(
+        distance: 100.0,
+        children: [
+          ActionButton(
+            onPressed: () => AppRouter.NavigateToWidget(FaceCreate()),
+            icon: Image.asset('assets/images/facebook.png'),
+          ),
+          ActionButton(
+            onPressed: () => AppRouter.NavigateToWidget(TwitterCreate()),
+            icon: Image.asset('assets/images/twitter.png'),
+          ),
+          ActionButton(
+            onPressed: () => AppRouter.NavigateToWidget(InstaCreate()),
+            icon: CircleAvatar(
+                foregroundColor: Colors.white,
+                child: Image.asset('assets/images/instagram.png')),
+          ),
+        ],
+      ),
       appBar: AppBar(
         backgroundColor: const Color(0xff1F97CF),
         title: Text(
@@ -35,7 +59,7 @@ class Posts extends StatelessWidget {
                 backgroundBuilder: (context, direction, progress) {
                   if (direction == SwipeDirection.endToStart) {
                     return Container(
-                      padding: EdgeInsets.only(left: 250.w),
+                      padding: EdgeInsets.only(left: 260.w),
                       height: screnHeight - 250.h,
                       color: Colors.red,
                       child: Icon(
