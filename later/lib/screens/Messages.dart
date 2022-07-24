@@ -26,44 +26,10 @@ class Messages extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "DSPosts".tr(),
-                  style: TextStyle(
-                    color: Color(0xff707070),
-                    fontSize: (24.0).sp,
-                  ),
-                ),
                 Container(
                   width: screenWidth,
-                  height: screnHeight / 1.9,
+                  height: screnHeight - 200.h,
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return DSPost(index, screenWidth);
-                    },
-                    itemCount: 5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(15.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "DSMessages".tr(),
-                  style: TextStyle(
-                    color: Color(0xff707070),
-                    fontSize: (24.0).sp,
-                  ),
-                ),
-                Container(
-                  width: screenWidth,
-                  height: screnHeight / 2.5,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return DSMessages(index, screenWidth);
                     },

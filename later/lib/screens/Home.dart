@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
                 ),
                 Container(
                   width: screenWidth,
-                  height: screnHeight / 1.8,
+                  height: screnHeight / 1.6,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
@@ -62,7 +62,7 @@ class Home extends StatelessWidget {
                 ),
                 Container(
                   width: screenWidth,
-                  height: screnHeight / 2.5,
+                  height: screnHeight / 2.4,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {

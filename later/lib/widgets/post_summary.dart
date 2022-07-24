@@ -18,7 +18,7 @@ class DSPost extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(15),
       ),
-      padding: EdgeInsets.all((12.0).sp),
+      padding: EdgeInsets.all((12.0).r),
       child: Column(
         children: [
           Image.asset('assets/images/sample.png.png'),
@@ -32,7 +32,11 @@ class DSPost extends StatelessWidget {
                 child: Text("this is sample text \n Facebook content"),
               ),
               CircleAvatar(
-                child: Image.asset("assets/images/facebook.png"),
+                radius: 50.r,
+                backgroundColor: Colors.transparent,
+                child: Image.asset(
+                  "assets/images/facebook.png",
+                ),
               )
             ],
           ),
@@ -49,7 +53,7 @@ class DSMessages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.w),
+      margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
       width: screenWidth - 80.w,
       decoration: BoxDecoration(
         border: Border.all(
@@ -58,13 +62,16 @@ class DSMessages extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(97),
       ),
-      padding: EdgeInsets.all((70.0).r),
+      padding: EdgeInsets.all((50.0).r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(
-            child: Text("this is sample text \n Facebook content"),
+            child: Text("this is sample text \nFacebook content"),
+          ),
+          SizedBox(
+            height: 70.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -72,7 +79,10 @@ class DSMessages extends StatelessWidget {
               const SizedBox(
                 child: Text("To: xxx-xxxxxxxxx"),
               ),
+              Spacer(),
               CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 40.r,
                 child: Image.asset("assets/images/whatsapp.png"),
               )
             ],
