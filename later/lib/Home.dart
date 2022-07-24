@@ -6,7 +6,13 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff1F97CF),
         title: Text("Home".tr()),
+      ),
+      body: Container(
+        child: Column(
+          children: [Text("DSPosts".tr()), Container()],
+        ),
       ),
     );
   }
