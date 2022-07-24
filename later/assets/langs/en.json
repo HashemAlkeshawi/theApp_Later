@@ -1,4 +1,22 @@
 {
 "Home" : "Home",
-"DSPosts" : "Due soon posts"
+"Posts":"Posts",
+"DSPosts" : "Due soon posts",
+"happy" : "happy",
+"loved" : "loved",
+"angry" : "angry",
+"excited" : "excited",
+"crazy" : "crazy",
+"blessed" : "blessed",
+"sad" : "sad",
+"thankful" : "thankful",
+"grateful" : "grateful",
+"embarrassed" : "embarrassed",
+"alone" : "alone",
+"awesome" : "awesome",
+"creative" : "creative",
+"annoyed" : "creative",
+"tired" : "tired",
+"DSMessages" : "Due soon messages"
+
 }
