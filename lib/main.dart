@@ -35,24 +35,24 @@ class MyApp extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           home: Home(),
-          onGenerateRoute: (RouteSettings routeSettings) {
-            String? name = routeSettings.name;
-            dynamic arguments = routeSettings.arguments;
-            switch (name) {
-              case Home.ScreenName:
-                return MaterialPageRoute(builder: (context) {
-                  return Home();
-                });
-              case Posts.ScreenName:
-                return MaterialPageRoute(builder: (context) {
-                  return Posts();
-                });
-              case Messages.ScreenName:
-                return MaterialPageRoute(builder: (context) {
-                  return Messages();
-                });
-            }
-          },
+          // onGenerateRoute: (RouteSettings routeSettings) {
+          //   String? name = routeSettings.name;
+          //   dynamic arguments = routeSettings.arguments;
+          //   switch (name) {
+          //     case Home.ScreenName:
+          //       return MaterialPageRoute(builder: (context) {
+          //         return Home();
+          //       });
+          //     case Posts.ScreenName:
+          //       return MaterialPageRoute(builder: (context) {
+          //         return Posts();
+          //       });
+          //     case Messages.ScreenName:
+          //       return MaterialPageRoute(builder: (context) {
+          //         return Messages();
+          //       });
+          //   }
+          // },
         );
       },
     );

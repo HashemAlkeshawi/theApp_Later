@@ -24,17 +24,17 @@ class Posts extends StatelessWidget {
         children: [
           ActionButton(
             onPressed: () => AppRouter.NavigateToWidget(FaceCreate()),
-            icon: Image.asset('assets/images/facebook.png'),
+            icon: Image.asset('assets/images/facebook_actionButton.png'),
           ),
           ActionButton(
             onPressed: () => AppRouter.NavigateToWidget(TwitterCreate()),
-            icon: Image.asset('assets/images/twitter.png'),
+            icon: Image.asset('assets/images/twitter_actionButton.png'),
           ),
           ActionButton(
             onPressed: () => AppRouter.NavigateToWidget(InstaCreate()),
             icon: CircleAvatar(
                 foregroundColor: Colors.white,
-                child: Image.asset('assets/images/instagram.png')),
+                child: Image.asset('assets/images/instagram_actionButton.png')),
           ),
         ],
       ),

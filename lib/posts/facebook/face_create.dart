@@ -11,13 +11,14 @@ class FaceCreate extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff4267B2),
         title: Text("NFPost".tr()),
         actions: [
           IconButton(
               onPressed: () {},
               icon: Icon(
                 Icons.done,
-                size: 35.r,
+                size: 40.h,
               ))
         ],
       ),
@@ -49,8 +50,7 @@ class FaceCreate extends StatelessWidget {
                 title: Text("Photo".tr()),
               ),
               const Divider(),
-              DropdownButton(
-                
+              ListTile(
                 leading: Image.asset("assets/images/feeling.png"),
                 title: Text("Feeling".tr()),
               )

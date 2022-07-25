@@ -23,6 +23,10 @@
 "NTPost":"New Tweet",
 "Photo" : "Photo",
 "Feeling" : "Feeling",
-"FCH" : "What's in your mind?"
+"FCH" : "What's in your mind?",
+"ICH" : "Write a caption..",
+"PaI" : "Pick an Image",
+"TCH" : "What's happening?",
+"saveTweet" : "Save tweet"
 
 }
