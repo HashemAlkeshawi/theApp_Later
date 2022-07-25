@@ -18,8 +18,11 @@
 "annoyed" : "creative",
 "tired" : "tired",
 "DSMessages" : "Due soon messages",
-"NFPost":"New Facebook post",
-"NIPost":"New Instagram post",
-"NTPost":"New Tweet"
+"NFPost":"New post",
+"NIPost":"New post",
+"NTPost":"New Tweet",
+"Photo" : "Photo",
+"Feeling" : "Feeling",
+"FCH" : "What's in your mind?"
 
 }
