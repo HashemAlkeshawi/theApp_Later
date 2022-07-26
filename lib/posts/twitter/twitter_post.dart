@@ -1,19 +1,34 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:later/posts/twitter/T_post.dart';
 
-import '../../widgets/Feeling.dart';
-
-class TwitterPost extends StatelessWidget {
+class TwitterPost extends StatefulWidget {
   static const String screenName = "Twitter_Post";
-
-  String? imagePath;
 
   T_Post post;
   TwitterPost(this.post);
 
+  @override
+  State<TwitterPost> createState() => _TwitterPostState();
+}
+
+class _TwitterPostState extends State<TwitterPost> {
+  String? imagePath;
+
+  File? selectedImage;
+
+  getImage() async {
+    XFile? file = await ImagePicker().pickImage(source: ImageSource.camera);
+    selectedImage = File(file!.path);
+    setState(() {});
+  }
+
   TextEditingController contentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -41,9 +56,7 @@ class TwitterPost extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
-                child: imagePath == null
-                    ? Text("")
-                    : Image.asset('file/images/$imagePath'),
+                child: selectImage(selectedImage),
               ),
               Row(
                 children: [Text("lastUpdate".tr()), Text("The date")],
@@ -52,4 +65,15 @@ class TwitterPost extends StatelessWidget {
           )),
     );
   }
+}
+
+selectImage(File? image) {
+  Widget? widget;
+  image == null
+      ? widget = const SizedBox()
+      : widget = Image.file(
+          image,
+          fit: BoxFit.contain,
+        );
+  return widget;
 }

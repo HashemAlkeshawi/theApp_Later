@@ -1,16 +1,27 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:later/posts/facebook/F_Post.dart';
 
-class FaceCreate extends StatelessWidget {
+class FaceCreate extends StatefulWidget {
   static const String screenName = "FaceCreate";
 
+  @override
+  State<FaceCreate> createState() => _FaceCreateState();
+}
+
+class _FaceCreateState extends State<FaceCreate> {
   TextEditingController contentController = TextEditingController();
   Feeling? feeling;
+  String? imagePath;
+
+  File? selectedImage;
 
   getImage() async {
-    File? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? file = await ImagePicker().pickImage(source: ImageSource.camera);
     selectedImage = File(file!.path);
     setState(() {});
   }
@@ -45,7 +56,7 @@ class FaceCreate extends StatelessWidget {
                 ),
               ),
               Container(
-                child: null,
+                child: selectImage(selectedImage),
               ),
             ],
           )),
@@ -55,6 +66,9 @@ class FaceCreate extends StatelessWidget {
             children: [
               const Divider(),
               ListTile(
+                onTap: () {
+                  getImage();
+                },
                 leading: Image.asset("assets/images/add_photo.png"),
                 title: Text("Photo".tr()),
               ),
@@ -67,4 +81,15 @@ class FaceCreate extends StatelessWidget {
           )),
     );
   }
+}
+
+selectImage(File? image) {
+  Widget? widget;
+  image == null
+      ? widget = const SizedBox()
+      : widget = Image.file(
+          image,
+          fit: BoxFit.contain,
+        );
+  return widget;
 }

@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^1.1.1+1
   swipeable_tile: ^2.0.0+1
   expendable_fab: ^0.0.3
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
