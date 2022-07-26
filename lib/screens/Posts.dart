@@ -10,14 +10,28 @@ import 'package:later/widgets/post_summary.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
 import '../appRouter.dart';
+import '../posts/facebook/F_Post.dart';
 import '../posts/facebook/face_create.dart';
 import '../posts/instagram/insta_create.dart';
 import '../posts/twitter/twitter_create.dart';
 import '../widgets/BottomNavigatonBar.dart';
 
-class Posts extends StatelessWidget {
+class Posts extends StatefulWidget {
   static const String ScreenName = "Posts";
 
+  @override
+  State<Posts> createState() => _PostsState();
+}
+
+class _PostsState extends State<Posts> {
+  List<Catigory> catigories = [
+    Catigory('All'),
+    Catigory('facebook'),
+    Catigory('instagram'),
+    Catigory('twitter'),
+  ];
+
+  Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
     double screnHeight = MediaQuery.of(context).size.height;
@@ -49,52 +63,99 @@ class Posts extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
       ),
-      body: SizedBox(
-        height: screnHeight - 200.h,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            PostMaster post = listOfPosts[index];
-            return InkWell(
-              onTap: () {
-                AppRouter.NavigateToWidget(selectType(post));
-              },
-              child: SwipeableTile.swipeToTrigger(
-                  color: Colors.white,
-                  swipeThreshold: 0.4,
-                  direction: SwipeDirection.endToStart,
-                  onSwiped: (direction) {
-                    print("swiped");
-                  },
-                  backgroundBuilder: (context, direction, progress) {
-                    if (direction == SwipeDirection.endToStart) {
-                      return Container(
-                        padding: EdgeInsets.only(left: 260.w),
-                        height: screnHeight - 250.h,
-                        color: Colors.red,
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                          size: 60.r,
+      body: Container(
+        padding: EdgeInsets.all(8.r),
+        height: screnHeight,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 100.h,
+              child: DropdownButton<Catigory>(
+                  hint: ListTile(
+                    title: Text(catigories.first.catigoryName!),
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset(
+                          'assets/images/${catigories.first.catigoryName}.png'),
+                    ),
+                  ),
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  value: selectedCatigory,
+                  items: catigories.map((e) {
+                    return DropdownMenuItem<Catigory>(
+                      value: e,
+                      child: ListTile(
+                        title: Text(e.catigoryName!),
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset(
+                              'assets/images/${e.catigoryName}.png'),
                         ),
-                      );
-                    }
-                    //  else if (direction == SwipeDirection.startToEnd) {
-                    //   // return your widget
-                    // }
-                    return Container();
-                  },
-                  key: UniqueKey(),
-                  child: SizedBox(
-                      width: screenWidth, child: DSPost(index, screenWidth))),
-            );
-          },
-          itemCount: 5,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (v) {
+                    selectedCatigory = v;
+                    setState(() {});
+                  }),
+            ),
+            SizedBox(
+              height: screnHeight - 300.h,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  PostMaster post = listOfPosts[index];
+                  return InkWell(
+                    onTap: () {
+                      AppRouter.NavigateToWidget(selectType(post));
+                    },
+                    child: SwipeableTile.swipeToTrigger(
+                        color: Colors.white,
+                        swipeThreshold: 0.5,
+                        direction: SwipeDirection.endToStart,
+                        onSwiped: (direction) {
+                          listOfPosts.removeAt(index);
+                          setState(() {});
+                        },
+                        backgroundBuilder: (context, direction, progress) {
+                          if (direction == SwipeDirection.endToStart) {
+                            return Container(
+                              padding: EdgeInsets.only(left: 260.w),
+                              height: screnHeight - 250.h,
+                              color: Colors.red,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                                size: 60.r,
+                              ),
+                            );
+                          }
+
+                          return Container();
+                        },
+                        key: UniqueKey(),
+                        child: SizedBox(
+                            width: screenWidth,
+                            child: DSPost(index, screenWidth))),
+                  );
+                },
+                itemCount: listOfPosts.length,
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: buttomNavigationBar(
-        screenName: ScreenName,
+        screenName: Posts.ScreenName,
         screen_width: screenWidth,
       ),
     );
   }
+}
+
+class Catigory {
+  String? catigoryName;
+
+  Catigory(this.catigoryName);
 }

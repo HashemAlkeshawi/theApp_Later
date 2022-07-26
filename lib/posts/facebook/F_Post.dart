@@ -28,4 +28,8 @@ class Feeling {
   static const String creative = "creative";
   static const String annoyed = "annoyed";
   static const String tired = "tired";
+  static const String cool = "cool";
+  static const String relaxed = "relaxed";
+  static const String sick = "sick";
+  static const String sleepy = "sleepy";
 }

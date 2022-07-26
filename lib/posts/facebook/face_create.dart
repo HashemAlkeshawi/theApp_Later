@@ -1,11 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/posts/facebook/F_Post.dart';
 
 class FaceCreate extends StatelessWidget {
   static const String screenName = "FaceCreate";
 
   TextEditingController contentController = TextEditingController();
+  Feeling? feeling;
+
+  getImage() async {
+    File? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    selectedImage = File(file!.path);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
