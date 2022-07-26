@@ -2,6 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expendable_fab/expendable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/DataStorage/Temp.dart';
+import 'package:later/posts/PostArchiticture.dart';
+import 'package:later/posts/facebook/face_post.dart';
+import 'package:later/screens/Home.dart';
 import 'package:later/widgets/post_summary.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
@@ -49,34 +53,40 @@ class Posts extends StatelessWidget {
         height: screnHeight - 200.h,
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return SwipeableTile.swipeToTrigger(
-                color: Colors.white,
-                swipeThreshold: 0.4,
-                direction: SwipeDirection.endToStart,
-                onSwiped: (direction) {
-                  print("swiped");
-                },
-                backgroundBuilder: (context, direction, progress) {
-                  if (direction == SwipeDirection.endToStart) {
-                    return Container(
-                      padding: EdgeInsets.only(left: 260.w),
-                      height: screnHeight - 250.h,
-                      color: Colors.red,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: 60.r,
-                      ),
-                    );
-                  }
-                  //  else if (direction == SwipeDirection.startToEnd) {
-                  //   // return your widget
-                  // }
-                  return Container();
-                },
-                key: UniqueKey(),
-                child: SizedBox(
-                    width: screenWidth, child: DSPost(index, screenWidth)));
+            PostMaster post = listOfPosts[index];
+            return InkWell(
+              onTap: () {
+                AppRouter.NavigateToWidget(selectType(post));
+              },
+              child: SwipeableTile.swipeToTrigger(
+                  color: Colors.white,
+                  swipeThreshold: 0.4,
+                  direction: SwipeDirection.endToStart,
+                  onSwiped: (direction) {
+                    print("swiped");
+                  },
+                  backgroundBuilder: (context, direction, progress) {
+                    if (direction == SwipeDirection.endToStart) {
+                      return Container(
+                        padding: EdgeInsets.only(left: 260.w),
+                        height: screnHeight - 250.h,
+                        color: Colors.red,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 60.r,
+                        ),
+                      );
+                    }
+                    //  else if (direction == SwipeDirection.startToEnd) {
+                    //   // return your widget
+                    // }
+                    return Container();
+                  },
+                  key: UniqueKey(),
+                  child: SizedBox(
+                      width: screenWidth, child: DSPost(index, screenWidth))),
+            );
           },
           itemCount: 5,
         ),

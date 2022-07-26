@@ -27,6 +27,10 @@
 "ICH" : "Write a caption..",
 "PaI" : "Pick an Image",
 "TCH" : "What's happening?",
-"saveTweet" : "Save tweet"
+"saveTweet" : "Save tweet",
+"FP" : "Facebook post",
+"IP" : "Instagram post",
+"TP" : "Tweet",
+"lastUpdate" : "Last Update: "
 
 }

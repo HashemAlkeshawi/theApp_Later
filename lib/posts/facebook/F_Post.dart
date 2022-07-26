@@ -1,14 +1,15 @@
-import 'dart:io';
+import 'package:later/posts/PostArchiticture.dart';
 
-class F_Post {
-  String? content;
-  DateTime? creationDate;
-  Feeling? feeling;
-  File? image;
-  DateTime? dueOn;
-
-  F_Post(
-      {this.content, this.creationDate, this.feeling, this.image, this.dueOn});
+class F_Post extends PostMaster {
+  String? feeling;
+  F_Post({
+    super.content,
+    super.creationTime,
+    super.imagePath,
+    super.dueOn,
+    super.isTimed,
+    this.feeling,
+  });
 }
 
 class Feeling {
