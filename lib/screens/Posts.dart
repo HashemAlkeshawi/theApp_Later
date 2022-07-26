@@ -137,7 +137,7 @@ class _PostsState extends State<Posts> {
                         key: UniqueKey(),
                         child: SizedBox(
                             width: screenWidth,
-                            child: DSPost(index, screenWidth))),
+                            child: DSPost(post, screenWidth))),
                   );
                 },
                 itemCount: listOfPosts.length,

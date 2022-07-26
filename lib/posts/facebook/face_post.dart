@@ -16,13 +16,19 @@ class FacePost extends StatelessWidget {
   TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String? feeling = post.feeling;
+    String content = post.content!;
+    String imagePath = post.imagePath!;
+    String typeImage = post.typeImage();
+    String? stillTime = post.isTimed ? post.StillTime() : null;
+
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 60.r,
         backgroundImage: AssetImage(
-          'assets/images/facebook.png',
+          typeImage,
         ),
       ),
       appBar: AppBar(
@@ -35,7 +41,7 @@ class FacePost extends StatelessWidget {
           child: ListView(
             children: [
               FeelingW(
-                emojiName: 'happy',
+                emojiName: feeling ?? '',
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),

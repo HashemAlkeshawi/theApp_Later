@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                 ),
                 Container(
                   width: screenWidth,
-                  height: screnHeight / 1.6,
+                  height: screnHeight / 1.55,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
@@ -54,9 +54,9 @@ class Home extends StatelessWidget {
                           onTap: () {
                             AppRouter.NavigateToWidget(selectType(post));
                           },
-                          child: DSPost(index, screenWidth));
+                          child: DSPost(post, screenWidth));
                     },
-                    itemCount: 2,
+                    itemCount: listOfPosts.length,
                   ),
                 ),
               ],

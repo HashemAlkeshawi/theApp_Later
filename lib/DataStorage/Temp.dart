@@ -5,24 +5,26 @@ import '../posts/instagram/I_post.dart';
 import '../posts/twitter/T_post.dart';
 
 F_Post fSample1 = F_Post(
+    isTimed: true,
+    dueOn: DateTime(2022, 7, 29, 16, 32),
     content: 'First is the contentof tis is the content',
     creationTime: DateTime.now(),
-    feeling: Feeling.crazy,
+    feeling: Feeling.cool,
     imagePath: 'assets/images/sample.png.png');
 
 T_Post fSample2 = T_Post(
     content: 'Second is the content of this is the content',
     creationTime: DateTime.now(),
-    imagePath: 'assets/images/facebook.png');
+    imagePath: 'assets/images/addImage.png');
 F_Post fSample3 = F_Post(
     content: 'Second is the content of this is the content',
     creationTime: DateTime.now(),
     feeling: Feeling.crazy,
-    imagePath: 'assets/images/facebook.png');
+    imagePath: 'assets/images/Messages_.png');
 I_Post fSample4 = I_Post(
     content: 'Second is the content of this is the content',
     creationTime: DateTime.now(),
-    imagePath: 'assets/images/facebook.png');
+    imagePath: 'assets/images/twitter.png');
 F_Post fSample5 = F_Post(
     content: 'Second is the content of this is the content',
     creationTime: DateTime.now(),

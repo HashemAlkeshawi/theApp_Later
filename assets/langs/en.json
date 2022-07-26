@@ -31,6 +31,7 @@
 "FP" : "Facebook post",
 "IP" : "Instagram post",
 "TP" : "Tweet",
-"lastUpdate" : "Last Update: "
+"lastUpdate" : "Last Update: ",
+"Due on" : "Due on: "
 
 }
