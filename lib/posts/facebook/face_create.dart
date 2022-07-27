@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:later/posts/facebook/F_Post.dart';
 
+import '../../widgets/saveDialog.dart';
+
 class FaceCreate extends StatefulWidget {
   static const String screenName = "FaceCreate";
 
@@ -26,6 +28,8 @@ class _FaceCreateState extends State<FaceCreate> {
     setState(() {});
   }
 
+  void savePost() {}
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -35,7 +39,11 @@ class _FaceCreateState extends State<FaceCreate> {
         title: Text("NFPost".tr()),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => saveDialog(savePost));
+              },
               icon: Icon(
                 Icons.done,
                 size: 40.h,

@@ -13,7 +13,7 @@ class DSPost extends StatelessWidget {
     String content = post.content!;
     String imagePath = post.imagePath!;
     String typeImage = post.typeImage();
-    String? stillTime = post.isTimed ? post.StillTime() : null;
+    String? stillTime = post.isTimed ? post.stillTime() : null;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
