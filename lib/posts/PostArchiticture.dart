@@ -18,8 +18,11 @@ class PostMaster {
   String StillTime() {
     Duration duration = this.dueOn!.difference(DateTime.now());
 
-    String stellInDateTime =
-        '${duration.inDays}d, ${duration.inHours}h, ${duration.inMinutes}m';
+    int days = duration.inDays;
+    int hours = duration.inHours - (days * 24);
+    int minutes = duration.inMinutes - ((days * 24 + hours) * 60);
+
+    String stellInDateTime = '${days}d, ${hours}h, ${minutes}m';
 
     return stellInDateTime;
   }

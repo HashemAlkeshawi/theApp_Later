@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,11 +16,46 @@ import '../posts/twitter/T_post.dart';
 import '../posts/twitter/twitter_post.dart';
 import '../widgets/BottomNavigatonBar.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   static const String ScreenName = "Home";
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<PostMaster> listOfPosts_ = [];
+  List<PostMaster> listOfPosts_r = [];
+
+  setState_() {
+    setState(() {});
+  }
+
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer =
+        Timer.periodic(const Duration(minutes: 1), (Timer t) => setState_());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int postsCount = 0;
+
+    listOfPosts_ = listOfPosts.where((element) {
+      return element.isTimed;
+    }).toList();
+
+    listOfPosts_.sort(((a, b) {
+      return a.dueOn!.compareTo(b.dueOn!);
+    }));
+
+    listOfPosts_.length > 4
+        ? listOfPosts_r = listOfPosts_.sublist(0, 4)
+        : listOfPosts_r = listOfPosts_;
+
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -43,20 +80,20 @@ class Home extends StatelessWidget {
                     fontSize: (24.0).sp,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: screenWidth,
                   height: screnHeight / 1.55,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      PostMaster post = listOfPosts[index];
+                      PostMaster post = listOfPosts_[index];
                       return InkWell(
                           onTap: () {
                             AppRouter.NavigateToWidget(selectType(post));
                           },
                           child: DSPost(post, screenWidth));
                     },
-                    itemCount: listOfPosts.length,
+                    itemCount: listOfPosts_.length,
                   ),
                 ),
               ],
@@ -91,7 +128,7 @@ class Home extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: buttomNavigationBar(
-        screenName: ScreenName,
+        screenName: Home.ScreenName,
         screen_width: screenWidth,
       ),
     );

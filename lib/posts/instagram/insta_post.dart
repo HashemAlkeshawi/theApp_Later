@@ -2,28 +2,32 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/posts/instagram/I_post.dart';
-import 'package:later/posts/twitter/T_post.dart';
 
-import '../../widgets/Feeling.dart';
+import '../../widgets/post_summary.dart';
 
 class InstaPost extends StatelessWidget {
   static const String screenName = "Insta_Post";
 
-  String? imagePath = 'sample.png.png';
-
   I_Post post;
   InstaPost(this.post);
 
-  TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+
+    String creationDate = DateFormat.yMMMMEEEEd().format(post.creationTime!);
+    String content = post.content!;
+    String? imagePath = post.imagePath;
+    String typeImage = post.typeImage();
+    DateTime? dueOn = post.dueOn;
+    bool isTimed = post.isTimed;
+
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 50.r,
         backgroundImage: AssetImage(
-          'assets/images/instagram.png',
+          typeImage,
         ),
       ),
       appBar: AppBar(
@@ -38,20 +42,27 @@ class InstaPost extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: imagePath == null
-                    ? Text("")
+                    ? const SizedBox()
                     : Image.asset(
-                        'assets/images/$imagePath',
+                        imagePath,
                         fit: BoxFit.cover,
                       ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 padding: EdgeInsets.all(10.r),
-                child: const Text("Assume this is a content"),
+                child: Text(content),
               ),
               Divider(),
               Row(
-                children: [Text("lastUpdate".tr()), Text("The date")],
+                children: [
+                  Text("lastUpdate".tr()),
+                  Text(creationDate),
+                  SizedBox(height: 20.h),
+                  Container(
+                      margin: EdgeInsets.only(bottom: 150.h),
+                      child: sharingDate(isTimed, dueOn)),
+                ],
               )
             ],
           )),

@@ -1,17 +1,39 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
-class TwitterCreate extends StatelessWidget {
-  static const String screenName = "FaceCreate";
+class TwitterCreate extends StatefulWidget {
+  static const String screenName = "TwitterCreate";
 
+  @override
+  State<TwitterCreate> createState() => _TwitterCreateState();
+}
+
+class _TwitterCreateState extends State<TwitterCreate> {
   TextEditingController contentController = TextEditingController();
+
+  File? selectedImage;
+
+  getImage() async {
+    XFile? file = await ImagePicker().pickImage(source: ImageSource.camera);
+    selectedImage = File(file!.path);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    ////////////
+    FocusNode inputNode = FocusNode();
+    void openKeyboard() {
+      FocusScope.of(context).requestFocus(inputNode);
+    }
+
+////////////
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff00ACEE),
@@ -23,6 +45,8 @@ class TwitterCreate extends StatelessWidget {
         child: ListView(
           children: [
             TextField(
+              keyboardType: TextInputType.values[0],
+              focusNode: inputNode,
               controller: contentController,
               maxLines: null,
               decoration: InputDecoration(
@@ -31,7 +55,7 @@ class TwitterCreate extends StatelessWidget {
               ),
             ),
             Container(
-              child: null,
+              child: selectImage(selectedImage),
             ),
           ],
         ),
@@ -45,11 +69,15 @@ class TwitterCreate extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      getImage();
+                    },
                     icon: Image.asset('assets/images/addImage.png'),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      openKeyboard();
+                    },
                     icon: Image.asset('assets/images/smile.png'),
                   ),
                   Spacer(),
@@ -75,4 +103,15 @@ class TwitterCreate extends StatelessWidget {
           )),
     );
   }
+}
+
+selectImage(File? image) {
+  Widget? widget;
+  image == null
+      ? widget = const SizedBox()
+      : widget = Image.file(
+          image,
+          fit: BoxFit.contain,
+        );
+  return widget;
 }

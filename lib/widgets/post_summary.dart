@@ -119,3 +119,17 @@ properContent(String? content) {
 
   return properContent;
 }
+
+Widget sharingDate(bool isTimed, DateTime? dueOn) {
+  Widget widget;
+  widget = isTimed
+      ? Row(
+          children: [
+            Text("SharingDate".tr()),
+            Text(DateFormat.yMMMMEEEEd().format(dueOn!))
+          ],
+        )
+      : SizedBox();
+
+  return widget;
+}

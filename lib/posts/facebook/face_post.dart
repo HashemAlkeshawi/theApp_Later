@@ -1,7 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/posts/facebook/F_Post.dart';
+import 'package:later/widgets/post_summary.dart';
 
 import '../../widgets/Feeling.dart';
 
@@ -13,14 +18,15 @@ class FacePost extends StatelessWidget {
   F_Post post;
   FacePost(this.post);
 
-  TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String creationDate = DateFormat.yMMMMEEEEd().format(post.creationTime!);
     String? feeling = post.feeling;
     String content = post.content!;
-    String imagePath = post.imagePath!;
+    String? imagePath = post.imagePath;
     String typeImage = post.typeImage();
-    String? stillTime = post.isTimed ? post.StillTime() : null;
+    DateTime? dueOn = post.dueOn;
+    bool isTimed = post.isTimed;
 
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -46,17 +52,23 @@ class FacePost extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 padding: EdgeInsets.all(10.r),
-                child: const Text("Assume this is a content"),
+                child: Text(content),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: imagePath == null
-                    ? Text("")
-                    : Image.asset('file/images/$imagePath'),
+                    ? const SizedBox()
+                    : Image.asset(imagePath),
               ),
+              Divider(),
               Row(
-                children: [Text("lastUpdate".tr()), Text("The date")],
-              )
+                children: [Text("lastUpdate".tr()), Text(creationDate)],
+              ),
+              SizedBox(height: 20.h),
+              Container(
+                margin: EdgeInsets.only(bottom: 150.h),
+                child: sharingDate(isTimed, dueOn),
+              ),
             ],
           )),
     );
