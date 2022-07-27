@@ -30,8 +30,9 @@ class DSPost extends StatelessWidget {
         children: [
           dueOn(stillTime),
           ConstrainedBox(
-              constraints: BoxConstraints(minHeight: screenWidth - 190.w),
-              child: Image.asset(imagePath)),
+            constraints: BoxConstraints(minHeight: screenWidth - 190.w),
+            child: imagePreview(imagePath),
+          ),
           SizedBox(
             height: 20.h,
           ),
@@ -132,4 +133,11 @@ Widget sharingDate(bool isTimed, DateTime? dueOn) {
       : SizedBox();
 
   return widget;
+}
+
+imagePreview(String path) {
+  Widget widget;
+  path.isEmpty || path == ''
+      ? widget = Image.asset('assets/images/twitter.png')
+      : Image.asset(path);
 }

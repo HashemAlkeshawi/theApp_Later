@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/posts/facebook/F_Post.dart';
 import 'package:later/posts/instagram/I_post.dart';
@@ -9,30 +11,34 @@ class PostMaster {
   DateTime? dueOn;
   String? imagePath;
   bool isTimed = false;
+  late int type;
 
   PostMaster(
       {this.content,
       this.creationTime,
       this.imagePath,
       this.dueOn,
-      this.isTimed = false});
+      this.isTimed = false,
+      required this.type});
 
   PostMaster.fromMap(Map<String, dynamic> map) {
     id = map[PostsTable.idColumName];
     content = map[PostsTable.contentColumName];
-    creationTime = map[PostsTable.creationTimeColumName];
-    dueOn = map[PostsTable.dueOnColumName];
+    creationTime = DateTime.tryParse(map[PostsTable.creationTimeColumName]);
+    dueOn = DateTime.tryParse(map[PostsTable.dueOnColumName]);
     imagePath = map[PostsTable.imagePathColumName];
     isTimed = map[PostsTable.isTimedColumName] == 1 ? true : false;
+    type = map[PostsTable.typeColumName];
   }
 
   toMap() {
     Map<String, dynamic> postInMap = {
       PostsTable.contentColumName: content,
-      PostsTable.creationTimeColumName: creationTime,
-      PostsTable.dueOnColumName: dueOn,
+      PostsTable.creationTimeColumName: creationTime.toString(),
+      PostsTable.dueOnColumName: dueOn.toString(),
       PostsTable.imagePathColumName: imagePath,
-      PostsTable.isTimedColumName: isTimed ? 1 : 0
+      PostsTable.isTimedColumName: isTimed ? 1 : 0,
+      PostsTable.typeColumName: type
     };
     return postInMap;
   }
@@ -50,9 +56,9 @@ class PostMaster {
   }
 
   String typeImage() {
-    String imageName = this.runtimeType == F_Post
+    String imageName = type == 1
         ? 'facebook'
-        : this.runtimeType == I_Post
+        : type == 2
             ? 'instagram'
             : 'twitter';
 

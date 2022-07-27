@@ -124,6 +124,7 @@ class PostsTable {
   static const String imagePathColumName = 'imagePath';
   static const String isTimedColumName = 'isTimed';
   static const String feelingColumName = 'feeling';
+  static const String typeColumName = 'type';
 }
 
 class MessagesTable {
@@ -134,4 +135,5 @@ class MessagesTable {
   static const String dueOnColumName = 'dueOn';
   static const String toColumnName = 'toWhom';
   static const String isTimedColumName = 'isTimed';
+  static const String typeColumName = 'type';
 }

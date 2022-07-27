@@ -23,7 +23,7 @@ class _FaceCreateState extends State<FaceCreate> {
   String? selectedFeeling;
   String? imagePath;
   DateTime? dueOn;
-  bool? isTimed;
+  bool isTimed = false;
 
   File? selectedImage;
 
@@ -41,24 +41,29 @@ class _FaceCreateState extends State<FaceCreate> {
         onChanged: (v) {}, onConfirm: (date) {
       dueOn = date;
       isTimed = true;
-      savePost();
+      savePost(false);
       print(dueOn);
+      Navigator.pop(context);
+      Navigator.pop(context);
       print('confirm $date');
-      Navigator.pop(context);
-      Navigator.pop(context);
     }, currentTime: DateTime.now(), locale: LocaleType.en);
   }
 
-  void savePost() {
+  void savePost(bool pop) {
     F_Post post = F_Post(
+        type: 1,
         content: contentController.text,
         creationTime: DateTime.now(),
         imagePath: selectedImage == null ? '' : selectedImage!.path,
         dueOn: DateTime.now(),
-        isTimed: isTimed!,
+        isTimed: isTimed,
         feeling: selectedFeeling);
 
     DbHelper.dbHelper.insertNewPost(post);
+    if (pop) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
   }
 
   @override

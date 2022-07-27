@@ -31,9 +31,12 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  List<PostMaster>? posts = [];
+
   getPosts() async {
-    List<PostMaster> posts = await listOfPosts();
-    return posts;
+    posts = await listOfPosts();
+
+    setState(() {});
   }
 
   Timer? timer;
@@ -47,11 +50,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    getPosts();
     int postsCount = 0;
 
-    List<PostMaster> posts = getPosts();
-
-    listOfPosts_ = posts.where((element) {
+    listOfPosts_ = posts!.where((element) {
       return element.isTimed;
     }).toList();
 
@@ -143,12 +145,12 @@ class _HomeState extends State<Home> {
 }
 
 Widget selectType(PostMaster post) {
-  switch (post.runtimeType) {
-    case F_Post:
+  switch (post.type) {
+    case 1:
       return FacePost(post as F_Post);
-    case I_Post:
+    case 2:
       return InstaPost(post as I_Post);
-    case T_Post:
+    case 3:
       return TwitterPost(post as T_Post);
   }
   return Text("no widget defined");

@@ -29,19 +29,19 @@ class _PostsState extends State<Posts> {
     Catigory('instagram'),
     Catigory('twitter'),
   ];
+  List<PostMaster>? posts = [];
 
   getPosts() async {
-    List<PostMaster> posts = await listOfPosts();
-    return posts;
+    posts = await listOfPosts();
+    setState(() {});
   }
 
   Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
+    getPosts();
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
-    List<PostMaster> posts = getPosts();
 
     return Scaffold(
       floatingActionButton: ExpendableFab(
@@ -112,7 +112,7 @@ class _PostsState extends State<Posts> {
               child: ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  PostMaster post = posts[index];
+                  PostMaster post = posts![index];
                   return InkWell(
                     onTap: () {
                       AppRouter.NavigateToWidget(selectType(post));
@@ -122,7 +122,7 @@ class _PostsState extends State<Posts> {
                         swipeThreshold: 0.5,
                         direction: SwipeDirection.endToStart,
                         onSwiped: (direction) {
-                          DbHelper.dbHelper.deleteOnePost(posts[index].id!);
+                          DbHelper.dbHelper.deleteOnePost(posts![index].id!);
                           setState(() {});
                         },
                         backgroundBuilder: (context, direction, progress) {
@@ -147,7 +147,7 @@ class _PostsState extends State<Posts> {
                             child: DSPost(post, screenWidth))),
                   );
                 },
-                itemCount: posts.length,
+                itemCount: posts!.length,
               ),
             ),
           ],

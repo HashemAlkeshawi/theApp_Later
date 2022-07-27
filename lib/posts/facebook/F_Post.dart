@@ -9,6 +9,7 @@ class F_Post extends PostMaster {
     super.imagePath,
     super.dueOn,
     super.isTimed,
+    required super.type,
     this.feeling,
   });
 }
