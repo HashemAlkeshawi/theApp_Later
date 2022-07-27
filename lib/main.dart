@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/appRouter.dart';
 import 'package:later/screens/Messages.dart';
 import 'package:later/screens/Posts.dart';
@@ -10,6 +11,8 @@ import 'screens/Home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await DbHelper.dbHelper.initDatabase();
+
   runApp(EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/langs',

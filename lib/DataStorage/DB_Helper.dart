@@ -1,15 +1,10 @@
 import 'package:later/posts/PostArchiticture.dart';
-import 'package:later/posts/facebook/F_Post.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
   DbHelper._();
   static DbHelper dbHelper = DbHelper._();
-  // Tables names
-  static const String messagesTableName = 'messages';
-
-// Columns names
 
   Database? database;
   initDatabase() async {
@@ -32,7 +27,7 @@ class DbHelper {
   ${PostsTable.dueOnColumName} TEXT,
   ${PostsTable.imagePathColumName} TEXT,
   ${PostsTable.isTimedColumName} INTEGER,
-  ${PostsTable.feelingColumName} TEXT,
+  ${PostsTable.feelingColumName} TEXT
   )
 ''');
       db.execute('''
@@ -42,7 +37,7 @@ class DbHelper {
   ${MessagesTable.creationTimeColumName} TEXT,
   ${MessagesTable.dueOnColumName} TEXT,
   ${MessagesTable.toColumnName} TEXT,
-  ${MessagesTable.isTimedColumName} INTEGER,
+  ${MessagesTable.isTimedColumName} INTEGER
   )
 ''');
     }, onOpen: (db) async {
@@ -137,6 +132,6 @@ class MessagesTable {
   static const String contentColumName = 'content';
   static const String creationTimeColumName = 'creationTime';
   static const String dueOnColumName = 'dueOn';
-  static const String toColumnName = 'to';
+  static const String toColumnName = 'toWhom';
   static const String isTimedColumName = 'isTimed';
 }

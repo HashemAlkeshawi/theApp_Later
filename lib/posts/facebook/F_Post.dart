@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:later/posts/PostArchiticture.dart';
 
 class F_Post extends PostMaster {
@@ -32,4 +33,28 @@ class Feeling {
   static const String relaxed = "relaxed";
   static const String sick = "sick";
   static const String sleepy = "sleepy";
+
+  static List<String> toList() {
+    return [
+      happy,
+      loved,
+      angry,
+      excited,
+      crazy,
+      blessed,
+      sad,
+      thankful,
+      grateful,
+      embarrassed,
+      alone,
+      awesome,
+      creative,
+      annoyed,
+      tired,
+      cool,
+      relaxed,
+      sick,
+      sleepy
+    ];
+  }
 }

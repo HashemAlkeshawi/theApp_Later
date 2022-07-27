@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/posts/facebook/F_Post.dart';
 
+import '../../widgets/Feeling.dart';
 import '../../widgets/saveDialog.dart';
 
 class FaceCreate extends StatefulWidget {
@@ -17,8 +20,10 @@ class FaceCreate extends StatefulWidget {
 
 class _FaceCreateState extends State<FaceCreate> {
   TextEditingController contentController = TextEditingController();
-  Feeling? feeling;
+  String? selectedFeeling;
   String? imagePath;
+  DateTime? dueOn;
+  bool? isTimed;
 
   File? selectedImage;
 
@@ -28,7 +33,33 @@ class _FaceCreateState extends State<FaceCreate> {
     setState(() {});
   }
 
-  void savePost() {}
+  void dateTimePicker() {
+    DatePicker.showDateTimePicker(context,
+        showTitleActions: true,
+        minTime: DateTime.now(),
+        maxTime: DateTime(2023, 12, 31),
+        onChanged: (v) {}, onConfirm: (date) {
+      dueOn = date;
+      isTimed = true;
+      savePost();
+      print(dueOn);
+      print('confirm $date');
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }, currentTime: DateTime.now(), locale: LocaleType.en);
+  }
+
+  void savePost() {
+    F_Post post = F_Post(
+        content: contentController.text,
+        creationTime: DateTime.now(),
+        imagePath: selectedImage == null ? '' : selectedImage!.path,
+        dueOn: DateTime.now(),
+        isTimed: isTimed!,
+        feeling: selectedFeeling);
+
+    DbHelper.dbHelper.insertNewPost(post);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +73,7 @@ class _FaceCreateState extends State<FaceCreate> {
               onPressed: () {
                 showDialog(
                     context: context,
-                    builder: (context) => saveDialog(savePost));
+                    builder: (context) => saveDialog(savePost, dateTimePicker));
               },
               icon: Icon(
                 Icons.done,
@@ -55,12 +86,18 @@ class _FaceCreateState extends State<FaceCreate> {
           height: screenHeight,
           child: ListView(
             children: [
-              TextField(
-                controller: contentController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "FCH".tr(),
+              FeelingW(
+                emojiName: selectedFeeling,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                child: TextField(
+                  controller: contentController,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "FCH".tr(),
+                  ),
                 ),
               ),
               Container(
@@ -81,10 +118,33 @@ class _FaceCreateState extends State<FaceCreate> {
                 title: Text("Photo".tr()),
               ),
               const Divider(),
-              ListTile(
-                leading: Image.asset("assets/images/feeling.png"),
-                title: Text("Feeling".tr()),
-              )
+              DropdownButton<String>(
+                  hint: ListTile(
+                    title: Text("Feeling".tr()),
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset('assets/images/feeling.png'),
+                    ),
+                  ),
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  value: selectedFeeling,
+                  items: (Feeling.toList()).map((e) {
+                    return DropdownMenuItem<String>(
+                      value: e,
+                      child: ListTile(
+                        title: Text(e),
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset('assets/emojis/$e.png'),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (v) {
+                    selectedFeeling = v;
+                    setState(() {});
+                  }),
             ],
           )),
     );

@@ -2,15 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expendable_fab/expendable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/DataStorage/Temp.dart';
 import 'package:later/posts/PostArchiticture.dart';
-import 'package:later/posts/facebook/face_post.dart';
 import 'package:later/screens/Home.dart';
 import 'package:later/widgets/post_summary.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
 import '../appRouter.dart';
-import '../posts/facebook/F_Post.dart';
 import '../posts/facebook/face_create.dart';
 import '../posts/instagram/insta_create.dart';
 import '../posts/twitter/twitter_create.dart';
@@ -31,11 +30,19 @@ class _PostsState extends State<Posts> {
     Catigory('twitter'),
   ];
 
+  getPosts() async {
+    List<PostMaster> posts = await listOfPosts();
+    return posts;
+  }
+
   Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    List<PostMaster> posts = getPosts();
+
     return Scaffold(
       floatingActionButton: ExpendableFab(
         distance: 100.0,
@@ -80,7 +87,7 @@ class _PostsState extends State<Posts> {
                     ),
                   ),
                   isExpanded: true,
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   value: selectedCatigory,
                   items: catigories.map((e) {
                     return DropdownMenuItem<Catigory>(
@@ -105,7 +112,7 @@ class _PostsState extends State<Posts> {
               child: ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  PostMaster post = listOfPosts[index];
+                  PostMaster post = posts[index];
                   return InkWell(
                     onTap: () {
                       AppRouter.NavigateToWidget(selectType(post));
@@ -115,7 +122,7 @@ class _PostsState extends State<Posts> {
                         swipeThreshold: 0.5,
                         direction: SwipeDirection.endToStart,
                         onSwiped: (direction) {
-                          listOfPosts.removeAt(index);
+                          DbHelper.dbHelper.deleteOnePost(posts[index].id!);
                           setState(() {});
                         },
                         backgroundBuilder: (context, direction, progress) {
@@ -140,7 +147,7 @@ class _PostsState extends State<Posts> {
                             child: DSPost(post, screenWidth))),
                   );
                 },
-                itemCount: listOfPosts.length,
+                itemCount: posts.length,
               ),
             ),
           ],

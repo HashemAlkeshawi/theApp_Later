@@ -1,3 +1,4 @@
+import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/posts/facebook/F_Post.dart';
 
 import '../posts/PostArchiticture.dart';
@@ -33,10 +34,15 @@ F_Post fSample5 = F_Post(
     feeling: Feeling.creative,
     imagePath: 'assets/images/facebook.png');
 
-List<PostMaster> listOfPosts = [
-  fSample1,
-  fSample2,
-  fSample3,
-  fSample4,
-  fSample5
-];
+Future<List<PostMaster>> listOfPosts() async {
+  List<PostMaster> listOfPosts = await DbHelper.dbHelper.selectAllPosts();
+  return listOfPosts;
+}
+
+//  = [
+//   fSample1,
+//   fSample2,
+//   fSample3,
+//   fSample4,
+//   fSample5
+// ];

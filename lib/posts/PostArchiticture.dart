@@ -3,7 +3,7 @@ import 'package:later/posts/facebook/F_Post.dart';
 import 'package:later/posts/instagram/I_post.dart';
 
 class PostMaster {
-  String? id;
+  int? id;
   String? content;
   DateTime? creationTime;
   DateTime? dueOn;

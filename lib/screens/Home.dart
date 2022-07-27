@@ -31,6 +31,11 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  getPosts() async {
+    List<PostMaster> posts = await listOfPosts();
+    return posts;
+  }
+
   Timer? timer;
 
   @override
@@ -44,7 +49,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     int postsCount = 0;
 
-    listOfPosts_ = listOfPosts.where((element) {
+    List<PostMaster> posts = getPosts();
+
+    listOfPosts_ = posts.where((element) {
       return element.isTimed;
     }).toList();
 

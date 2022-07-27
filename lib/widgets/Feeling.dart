@@ -9,12 +9,14 @@ class FeelingW extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.h,
-      child: ListTile(
-        minLeadingWidth: 5,
-        leading: Image.asset('assets/emojis/$emojiName.png'),
-        title: Text("${"Feeling".tr()} $emojiName"),
-      ),
+      height: emojiName == null ? 0 : 50.h,
+      child: emojiName == null
+          ? const SizedBox()
+          : ListTile(
+              minLeadingWidth: 5,
+              leading: Image.asset('assets/emojis/$emojiName.png'),
+              title: Text("${"Feeling".tr()} ${emojiName!.tr()}"),
+            ),
     );
   }
 }
