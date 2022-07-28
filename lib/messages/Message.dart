@@ -1,32 +1,25 @@
-import 'dart:ffi';
-
 import 'package:later/DataStorage/DB_Helper.dart';
-import 'package:later/posts/facebook/F_Post.dart';
-import 'package:later/posts/instagram/I_post.dart';
 
-class PostMaster {
+class Messages_ {
   int? id;
   String? content;
   DateTime? creationTime;
   DateTime? dueOn;
-  String? imagePath;
   bool isTimed = false;
   late int type;
 
-  PostMaster(
+  Messages_(
       {this.content,
       this.creationTime,
-      this.imagePath,
       this.dueOn,
       this.isTimed = false,
       required this.type});
 
-  PostMaster.fromMap(Map<String, dynamic> map) {
+  Messages_.fromMap(Map<String, dynamic> map) {
     id = map[PostsTable.idColumName];
     content = map[PostsTable.contentColumName];
     creationTime = DateTime.tryParse(map[PostsTable.creationTimeColumName]);
     dueOn = DateTime.tryParse(map[PostsTable.dueOnColumName]);
-    imagePath = map[PostsTable.imagePathColumName];
     isTimed = map[PostsTable.isTimedColumName] == 1 ? true : false;
     type = map[PostsTable.typeColumName];
   }
@@ -36,7 +29,6 @@ class PostMaster {
       PostsTable.contentColumName: content,
       PostsTable.creationTimeColumName: creationTime.toString(),
       PostsTable.dueOnColumName: dueOn.toString(),
-      PostsTable.imagePathColumName: imagePath,
       PostsTable.isTimedColumName: isTimed ? 1 : 0,
       PostsTable.typeColumName: type
     };
@@ -44,7 +36,7 @@ class PostMaster {
   }
 
   String stillTime() {
-    Duration duration = this.dueOn!.difference(DateTime.now());
+    Duration duration = dueOn!.difference(DateTime.now());
 
     int days = duration.inDays;
     int hours = duration.inHours - (days * 24);
@@ -55,13 +47,15 @@ class PostMaster {
     return stellInDateTime;
   }
 
-  String typeImage() {
-    String imageName = type == 1
-        ? 'facebook'
-        : type == 2
-            ? 'instagram'
-            : 'twitter';
-
-    return 'assets/images/$imageName.png';
+  String typeImage(Messages_ m) {
+    switch (m.type) {
+      case 1:
+        return 'assets/images/facebook.png';
+      case 2:
+        return 'assets/images/facebook.png';
+      case 3:
+        return 'assets/images/facebook.png';
+    }
+    return '';
   }
 }

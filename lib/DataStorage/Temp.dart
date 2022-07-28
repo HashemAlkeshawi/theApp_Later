@@ -1,9 +1,4 @@
 import 'package:later/DataStorage/DB_Helper.dart';
-import 'package:later/posts/facebook/F_Post.dart';
-
-import '../posts/PostArchiticture.dart';
-import '../posts/instagram/I_post.dart';
-import '../posts/twitter/T_post.dart';
 
 // F_Post fSample1 = F_Post(
 //     isTimed: true,
@@ -34,9 +29,22 @@ import '../posts/twitter/T_post.dart';
 //     feeling: Feeling.creative,
 //     imagePath: 'assets/images/facebook.png');
 
-Future<List<PostMaster>> listOfPosts() async {
-  List<PostMaster> listOfPosts = await DbHelper.dbHelper.selectAllPosts();
-  return listOfPosts;
+List<dynamic> ListOfPosts = [];
+
+listOfPost() async {
+  List<dynamic> listOfPosts = await DbHelper.dbHelper.fSelectAllPosts();
+  List<dynamic> listOfPosts2 = await DbHelper.dbHelper.ISelectAllPosts();
+  List<dynamic> listOfPosts3 = await DbHelper.dbHelper.TSelectAllPosts();
+  ListOfPosts.clear();
+  ListOfPosts.addAll(listOfPosts);
+  ListOfPosts.addAll(listOfPosts2);
+  ListOfPosts.addAll(listOfPosts3);
+
+  ListOfPosts.sort(
+    (a, b) {
+      return b.creationTime!.compareTo(a.creationTime!);
+    },
+  );
 }
 
 //  = [

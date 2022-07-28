@@ -3,16 +3,12 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:later/posts/facebook/F_Post.dart';
 import 'package:later/widgets/post_summary.dart';
 
 import '../DataStorage/Temp.dart';
 import '../appRouter.dart';
-import '../posts/PostArchiticture.dart';
 import '../posts/facebook/face_post.dart';
-import '../posts/instagram/I_post.dart';
 import '../posts/instagram/insta_post.dart';
-import '../posts/twitter/T_post.dart';
 import '../posts/twitter/twitter_post.dart';
 import '../widgets/BottomNavigatonBar.dart';
 
@@ -24,17 +20,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<PostMaster> listOfPosts_ = [];
-  List<PostMaster> listOfPosts_r = [];
+  List listOfPosts_ = [];
+  List listOfPosts_r = [];
 
   setState_() {
     setState(() {});
   }
 
-  List<PostMaster>? posts = [];
+  List? posts = [];
 
-  getPosts() async {
-    posts = await listOfPosts();
+  getPosts() {
+    posts = ListOfPosts;
 
     setState(() {});
   }
@@ -44,12 +40,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    timer =
-        Timer.periodic(const Duration(minutes: 1), (Timer t) => setState_());
+    // timer =
+    //     Timer.periodic(const Duration(minutes: 1), (Timer t) => setState_());
   }
 
   @override
   Widget build(BuildContext context) {
+    listOfPost();
     getPosts();
     int postsCount = 0;
 
@@ -95,7 +92,7 @@ class _HomeState extends State<Home> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      PostMaster post = listOfPosts_[index];
+                      dynamic post = listOfPosts_[index];
                       return InkWell(
                           onTap: () {
                             AppRouter.NavigateToWidget(selectType(post));
@@ -144,14 +141,14 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget selectType(PostMaster post) {
+Widget selectType(dynamic post) {
   switch (post.type) {
     case 1:
-      return FacePost(post as F_Post);
+      return FacePost(post);
     case 2:
-      return InstaPost(post as I_Post);
+      return InstaPost(post);
     case 3:
-      return TwitterPost(post as T_Post);
+      return TwitterPost(post);
   }
   return Text("no widget defined");
 }

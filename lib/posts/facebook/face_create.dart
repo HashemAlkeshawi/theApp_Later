@@ -6,10 +6,14 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:later/DataStorage/DB_Helper.dart';
+import 'package:later/DataStorage/Temp.dart';
 import 'package:later/posts/facebook/F_Post.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../widgets/Feeling.dart';
 import '../../widgets/saveDialog.dart';
+
+typedef VoidCallback refreshFunction();
 
 class FaceCreate extends StatefulWidget {
   static const String screenName = "FaceCreate";
@@ -49,18 +53,29 @@ class _FaceCreateState extends State<FaceCreate> {
     }, currentTime: DateTime.now(), locale: LocaleType.en);
   }
 
-  void savePost(bool pop) {
+  void savePost(bool pop) async {
+    final Directory path = await getApplicationDocumentsDirectory();
+    String appPath = path.path;
+
+// copy the file to a new path
+    final File ImageFile =
+        await selectedImage!.copy('$appPath/${DateTime.now().toString}.png');
+
+    imagePath = ImageFile.path;
+
     F_Post post = F_Post(
         type: 1,
         content: contentController.text,
         creationTime: DateTime.now(),
-        imagePath: selectedImage == null ? '' : selectedImage!.path,
+        imagePath: imagePath == null ? '' : imagePath!,
         dueOn: DateTime.now(),
         isTimed: isTimed,
         feeling: selectedFeeling);
 
-    DbHelper.dbHelper.insertNewPost(post);
+    DbHelper.dbHelper.fInsertNewPost(post);
+    listOfPost();
     if (pop) {
+      listOfPost();
       Navigator.pop(context);
       Navigator.pop(context);
     }

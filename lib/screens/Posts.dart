@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/DataStorage/DB_Helper.dart';
 import 'package:later/DataStorage/Temp.dart';
-import 'package:later/posts/PostArchiticture.dart';
 import 'package:later/screens/Home.dart';
 import 'package:later/widgets/post_summary.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
@@ -29,17 +28,22 @@ class _PostsState extends State<Posts> {
     Catigory('instagram'),
     Catigory('twitter'),
   ];
-  List<PostMaster>? posts = [];
+  List? posts = [];
 
-  getPosts() async {
-    posts = await listOfPosts();
-    setState(() {});
+  getPosts() {
+    listOfPost();
+    posts = ListOfPosts;
+    print("I am getting posts and roin your memory");
+    setState(() {
+      listOfPost();
+    });
   }
 
   Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
     getPosts();
+
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -110,9 +114,10 @@ class _PostsState extends State<Posts> {
             SizedBox(
               height: screnHeight - 300.h,
               child: ListView.builder(
+                controller: ScrollController(keepScrollOffset: false),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  PostMaster post = posts![index];
+                  dynamic post = posts![index];
                   return InkWell(
                     onTap: () {
                       AppRouter.NavigateToWidget(selectType(post));
@@ -123,7 +128,7 @@ class _PostsState extends State<Posts> {
                         direction: SwipeDirection.endToStart,
                         onSwiped: (direction) {
                           DbHelper.dbHelper.deleteOnePost(posts![index].id!);
-                          setState(() {});
+                          getPosts();
                         },
                         backgroundBuilder: (context, direction, progress) {
                           if (direction == SwipeDirection.endToStart) {

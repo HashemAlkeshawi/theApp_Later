@@ -10,7 +10,7 @@ class FeelingW extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: emojiName == null ? 0 : 50.h,
-      child: emojiName == null
+      child: emojiName == null || emojiName == ''
           ? const SizedBox()
           : ListTile(
               minLeadingWidth: 5,

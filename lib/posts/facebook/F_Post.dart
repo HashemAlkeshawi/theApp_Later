@@ -1,17 +1,71 @@
-import 'package:flutter/material.dart';
-import 'package:later/posts/PostArchiticture.dart';
+import 'package:later/DataStorage/DB_Helper.dart';
 
-class F_Post extends PostMaster {
+class F_Post {
+  int? id;
+  String? content;
+  DateTime? creationTime;
+  DateTime? dueOn;
+  String? imagePath;
+  bool isTimed = false;
+  late int type;
   String? feeling;
-  F_Post({
-    super.content,
-    super.creationTime,
-    super.imagePath,
-    super.dueOn,
-    super.isTimed,
-    required super.type,
-    this.feeling,
-  });
+
+  F_Post(
+      {this.content,
+      this.creationTime,
+      this.feeling,
+      this.imagePath,
+      this.dueOn,
+      this.isTimed = false,
+      required this.type});
+
+  F_Post.fromMap(Map<String, dynamic> map) {
+    id = map[PostsTable.idColumName];
+    content = map[PostsTable.contentColumName];
+    creationTime = DateTime.tryParse(map[PostsTable.creationTimeColumName]);
+    dueOn = DateTime.tryParse(map[PostsTable.dueOnColumName]);
+    imagePath = map[PostsTable.imagePathColumName];
+    isTimed = map[PostsTable.isTimedColumName] == 1 ? true : false;
+    type = map[PostsTable.typeColumName];
+    feeling = map[PostsTable.feelingColumName];
+  }
+
+  toMap() {
+    Map<String, dynamic> postInMap = {
+      PostsTable.contentColumName: content,
+      PostsTable.creationTimeColumName: creationTime.toString(),
+      PostsTable.dueOnColumName: dueOn.toString(),
+      PostsTable.imagePathColumName: imagePath,
+      PostsTable.isTimedColumName: isTimed ? 1 : 0,
+      PostsTable.typeColumName: type,
+      PostsTable.feelingColumName: feeling
+    };
+    return postInMap;
+  }
+
+  String stillTime() {
+    Duration duration = dueOn!.difference(DateTime.now());
+
+    int days = duration.inDays;
+    int hours = duration.inHours - (days * 24);
+    int minutes = duration.inMinutes - ((days * 24 + hours) * 60);
+
+    String stellInDateTime = '${days}d, ${hours}h, ${minutes}m';
+
+    return stellInDateTime;
+  }
+
+  String typeImage() {
+    switch (type) {
+      case 1:
+        return 'assets/images/facebook.png';
+      case 2:
+        return 'assets/images/instagram.png';
+      case 3:
+        return 'assets/images/twitter.png';
+    }
+    return 'assets/images/facebook.png';
+  }
 }
 
 class Feeling {

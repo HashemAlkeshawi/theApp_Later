@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:later/posts/PostArchiticture.dart';
 
 class DSPost extends StatelessWidget {
-  PostMaster post;
+  dynamic post;
   double screenWidth;
   DSPost(this.post, this.screenWidth);
 

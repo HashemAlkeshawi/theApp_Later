@@ -1,6 +1,10 @@
-import 'package:later/posts/PostArchiticture.dart';
+import 'package:later/posts/facebook/F_Post.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../messages/Message.dart';
+import '../posts/instagram/I_post.dart';
+import '../posts/twitter/T_post.dart';
 
 class DbHelper {
   DbHelper._();
@@ -27,7 +31,8 @@ class DbHelper {
   ${PostsTable.dueOnColumName} TEXT,
   ${PostsTable.imagePathColumName} TEXT,
   ${PostsTable.isTimedColumName} INTEGER,
-  ${PostsTable.feelingColumName} TEXT
+  ${PostsTable.feelingColumName} TEXT,
+  ${PostsTable.typeColumName} INTEGER
   )
 ''');
       db.execute('''
@@ -37,7 +42,8 @@ class DbHelper {
   ${MessagesTable.creationTimeColumName} TEXT,
   ${MessagesTable.dueOnColumName} TEXT,
   ${MessagesTable.toColumnName} TEXT,
-  ${MessagesTable.isTimedColumName} INTEGER
+  ${MessagesTable.isTimedColumName} INTEGER,
+  ${MessagesTable.typeColumName} INTEGER
   )
 ''');
     }, onOpen: (db) async {
@@ -50,26 +56,79 @@ class DbHelper {
 
   // POSTS CRUID ---------------------------------------
 
-  insertNewPost(PostMaster post) async {
+  fInsertNewPost(F_Post post) async {
     int rowIndex =
         await database!.insert(PostsTable.postsTableName, post.toMap());
     print(rowIndex.toString());
   }
 
-  Future<List<PostMaster>> selectAllPosts() async {
-    List<Map<String, Object?>> rowsAsMaps =
-        await database!.query(PostsTable.postsTableName);
-    List<PostMaster> posts =
-        rowsAsMaps.map((e) => PostMaster.fromMap(e)).toList();
+  iInsertNewPost(I_Post post) async {
+    int rowIndex =
+        await database!.insert(PostsTable.postsTableName, post.toMap());
+    print(rowIndex.toString());
+  }
+
+  tInsertNewPost(T_Post post) async {
+    int rowIndex =
+        await database!.insert(PostsTable.postsTableName, post.toMap());
+    print(rowIndex.toString());
+  }
+
+  Future<List<F_Post>> fSelectAllPosts() async {
+    List<Map<String, Object?>> rowsAsMaps = await database!.query(
+        PostsTable.postsTableName,
+        where: '${PostsTable.typeColumName}=?',
+        whereArgs: [1]);
+    List<F_Post> posts = rowsAsMaps.map((e) => F_Post.fromMap(e)).toList();
     return posts;
   }
 
-  selectOnePost(int id) {
+  Future<List<I_Post>> ISelectAllPosts() async {
+    List<Map<String, Object?>> rowsAsMaps = await database!.query(
+        PostsTable.postsTableName,
+        where: '${PostsTable.typeColumName}=?',
+        whereArgs: [2]);
+    List<I_Post> posts = rowsAsMaps.map((e) => I_Post.fromMap(e)).toList();
+    return posts;
+  }
+
+  Future<List<T_Post>> TSelectAllPosts() async {
+    List<Map<String, Object?>> rowsAsMaps = await database!.query(
+        PostsTable.postsTableName,
+        where: '${PostsTable.typeColumName}=?',
+        whereArgs: [3]);
+    List<T_Post> posts = rowsAsMaps.map((e) => T_Post.fromMap(e)).toList();
+    return posts;
+  }
+
+  fSelectOnePost(int id) {
     database!.query(PostsTable.postsTableName,
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
   }
 
-  updateOnePost(PostMaster post) async {
+  ISelectOnePost(int id) {
+    database!.query(PostsTable.postsTableName,
+        where: '${PostsTable.idColumName}=?', whereArgs: [id]);
+  }
+
+  TSelectOnePost(int id) {
+    database!.query(PostsTable.postsTableName,
+        where: '${PostsTable.idColumName}=?', whereArgs: [id]);
+  }
+
+  fUpdateOnePost(F_Post post) async {
+    int count = await database!.update(PostsTable.idColumName, post.toMap(),
+        where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
+    print(count.toString());
+  }
+
+  IUpdateOnePost(I_Post post) async {
+    int count = await database!.update(PostsTable.idColumName, post.toMap(),
+        where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
+    print(count.toString());
+  }
+
+  UpdateOnePost(T_Post post) async {
     int count = await database!.update(PostsTable.idColumName, post.toMap(),
         where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
     print(count.toString());
@@ -82,17 +141,17 @@ class DbHelper {
   //--------------------------------------------------
   // POSTS CRUID ---------------------------------------
 
-  insertNewMessage(PostMaster post) async {
+  insertNewMessage(Messages_ post) async {
     int rowIndex =
         await database!.insert(PostsTable.postsTableName, post.toMap());
     print(rowIndex.toString());
   }
 
-  Future<List<PostMaster>> selectAllMessagess() async {
+  Future<List<Messages_>> selectAllMessagess() async {
     List<Map<String, Object?>> rowsAsMaps =
         await database!.query(PostsTable.postsTableName);
-    List<PostMaster> posts =
-        rowsAsMaps.map((e) => PostMaster.fromMap(e)).toList();
+    List<Messages_> posts =
+        rowsAsMaps.map((e) => Messages_.fromMap(e)).toList();
     return posts;
   }
 
@@ -101,7 +160,7 @@ class DbHelper {
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
   }
 
-  updateOneMessage(PostMaster post) async {
+  updateOneMessage(Messages_ post) async {
     int count = await database!.update(PostsTable.idColumName, post.toMap(),
         where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
     print(count.toString());
