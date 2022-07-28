@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,9 +45,8 @@ class InstaPost extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: imagePath == null
                     ? const SizedBox()
-                    : Image.asset(
-                        imagePath,
-                        fit: BoxFit.cover,
+                    : Image.file(
+                        File(imagePath),
                       ),
               ),
               Container(
@@ -54,16 +55,14 @@ class InstaPost extends StatelessWidget {
                 child: Text(content),
               ),
               Divider(),
-              Row(
-                children: [
-                  Text("lastUpdate".tr()),
-                  Text(creationDate),
-                  SizedBox(height: 20.h),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 150.h),
-                      child: sharingDate(isTimed, dueOn)),
-                ],
-              )
+              Row(children: [
+                Text("lastUpdate".tr()),
+                Text(creationDate),
+              ]),
+              SizedBox(height: 20.h),
+              Container(
+                  margin: EdgeInsets.only(bottom: 150.h),
+                  child: sharingDate(isTimed, dueOn)),
             ],
           )),
     );

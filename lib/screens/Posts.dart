@@ -10,8 +10,11 @@ import 'package:swipeable_tile/swipeable_tile.dart';
 
 import '../appRouter.dart';
 import '../posts/facebook/face_create.dart';
+import '../posts/facebook/face_post.dart';
 import '../posts/instagram/insta_create.dart';
+import '../posts/instagram/insta_post.dart';
 import '../posts/twitter/twitter_create.dart';
+import '../posts/twitter/twitter_post.dart';
 import '../widgets/BottomNavigatonBar.dart';
 
 class Posts extends StatefulWidget {
@@ -32,8 +35,9 @@ class _PostsState extends State<Posts> {
   ];
   List? posts = [];
 
-  getPosts() {
-    listOfPost();
+  getPosts() async {
+    posts!.clear();
+    await listOfPost();
     posts =
         categorize(ListOfPosts, posts!, selectedCatigory ?? catigories.first);
     print("I am refreshing posts and killing your performance!");
@@ -43,8 +47,7 @@ class _PostsState extends State<Posts> {
   Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
-    // selectedCatigory = catigories.first;
-    getPosts();
+    // getPosts();
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -192,4 +195,16 @@ categorize(List oldPosts, List newPosts, Catigory catigory) {
     newPosts = oldPosts;
   }
   return newPosts;
+}
+
+Widget selectType(dynamic post) {
+  switch (post.type) {
+    case 1:
+      return FacePost(post);
+    case 2:
+      return InstaPost(post);
+    case 3:
+      return TwitterPost(post);
+  }
+  return const Text("no widget defined");
 }

@@ -15,24 +15,9 @@ class DSPost extends StatefulWidget {
 }
 
 class _DSPostState extends State<DSPost> {
-  setState_() {
-    setState(() {});
-  }
-
-  Timer? timer;
-  @override
-  void initState() {
-    mounted
-        ? {
-            super.initState(),
-            timer = Timer.periodic(
-                const Duration(minutes: 1), (Timer t) => setState_())
-          }
-        : {};
-  }
-
   @override
   Widget build(BuildContext context) {
+    int type = widget.post.type;
     String content = widget.post.content!;
     String imagePath = widget.post.imagePath!;
     String typeImage = widget.post.typeImage();
@@ -53,7 +38,7 @@ class _DSPostState extends State<DSPost> {
         children: [
           dueOn(stillTime),
           SizedBox(
-            child: imagePreview(imagePath),
+            child: imagePreview(imagePath, type),
           ),
           SizedBox(
             height: 20.h,
@@ -124,6 +109,12 @@ class DSMessages extends StatelessWidget {
   }
 }
 
+//
+//
+// General widgets ----------------------------------
+//
+//
+
 Widget dueOn(String? stillTime) {
   Widget widget;
   stillTime == null
@@ -157,13 +148,22 @@ Widget sharingDate(bool isTimed, DateTime? dueOn) {
   return widget;
 }
 
-imagePreview(String path) {
+imagePreview(String path, int type) {
   Widget widget;
   path.isEmpty || path == ''
-      ? {
-          widget = Image.asset('assets/images/twitter.png'),
-          print("is emptry or")
-        }
+      ? {widget = selectType(type), print("is emptry or")}
       : widget = Image.file(File(path), fit: BoxFit.contain);
   return widget;
+}
+
+Widget selectType(int type) {
+  switch (type) {
+    case 1:
+      return Image.asset('assets/images/facebook.png');
+    case 2:
+      return Image.asset('assets/images/instagram.png');
+    case 3:
+      return Image.asset('assets/images/twitter.png');
+  }
+  return const Text("no widget defined");
 }

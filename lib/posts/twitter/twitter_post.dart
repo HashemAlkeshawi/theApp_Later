@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -40,31 +41,32 @@ class TwitterPost extends StatelessWidget {
         title: Text("TP".tr()),
       ),
       body: Container(
-          padding: EdgeInsets.all(12.h),
-          height: screenHeight,
-          child: ListView(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 18.h),
-                padding: EdgeInsets.all(10.r),
-                child: Text(content),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 18.h),
-                child: imagePath == null
-                    ? const SizedBox()
-                    : Image.asset(imagePath),
-              ),
-              Divider(),
-              Row(
-                children: [Text("lastUpdate".tr()), Text(creationDate)],
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                  margin: EdgeInsets.only(bottom: 150.h),
-                  child: sharingDate(isTimed, dueOn)),
-            ],
-          )),
+        padding: EdgeInsets.all(12.h),
+        height: screenHeight,
+        child: ListView(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 18.h),
+              padding: EdgeInsets.all(10.r),
+              child: Text(content),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 18.h),
+              child: imagePath == null
+                  ? const SizedBox()
+                  : Image.file(File(imagePath)),
+            ),
+            Divider(),
+            Row(
+              children: [Text("lastUpdate".tr()), Text(creationDate)],
+            ),
+            SizedBox(height: 20.h),
+            Container(
+                margin: EdgeInsets.only(bottom: 150.h),
+                child: sharingDate(isTimed, dueOn)),
+          ],
+        ),
+      ),
     );
   }
 }

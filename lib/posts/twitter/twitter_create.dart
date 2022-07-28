@@ -82,13 +82,15 @@ class _TwitterCreateState extends State<TwitterCreate> {
     final Directory path = await getApplicationDocumentsDirectory();
     String appPath = path.path;
 
-    String imageFileType =
-        selectedImage!.path.substring(selectedImage!.path.length - 4);
+    if (selectedImage != null) {
+      String imageFileType =
+          selectedImage!.path.substring(selectedImage!.path.length - 4);
 
-    final File ImageFile =
-        await selectedImage!.copy('$appPath/${DateTime.now()}$imageFileType');
+      final File ImageFile =
+          await selectedImage!.copy('$appPath/${DateTime.now()}$imageFileType');
 
-    imagePath = ImageFile.path;
+      imagePath = ImageFile.path;
+    }
 
     print(imagePath);
 
