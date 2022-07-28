@@ -32,7 +32,33 @@ class _FaceCreateState extends State<FaceCreate> {
   File? selectedImage;
 
   getImage() async {
-    XFile? file = await ImagePicker().pickImage(source: ImageSource.camera);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text("Camera"),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+    XFile? file = await ImagePicker().pickImage(
+        source: isCamera! ? ImageSource.camera : ImageSource.gallery);
     selectedImage = File(file!.path);
     setState(() {});
   }
@@ -56,19 +82,24 @@ class _FaceCreateState extends State<FaceCreate> {
   void savePost(bool pop) async {
     final Directory path = await getApplicationDocumentsDirectory();
     String appPath = path.path;
+    // print(selectedImage!.path);
 
-// copy the file to a new path
+    String imageFileType =
+        selectedImage!.path.substring(selectedImage!.path.length - 4);
+
     final File ImageFile =
-        await selectedImage!.copy('$appPath/${DateTime.now().toString}.png');
+        await selectedImage!.copy('$appPath/${DateTime.now()}$imageFileType');
 
     imagePath = ImageFile.path;
+
+    print(imagePath);
 
     F_Post post = F_Post(
         type: 1,
         content: contentController.text,
         creationTime: DateTime.now(),
         imagePath: imagePath == null ? '' : imagePath!,
-        dueOn: DateTime.now(),
+        dueOn: dueOn,
         isTimed: isTimed,
         feeling: selectedFeeling);
 

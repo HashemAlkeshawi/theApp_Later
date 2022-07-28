@@ -40,8 +40,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    // timer =
-    //     Timer.periodic(const Duration(minutes: 1), (Timer t) => setState_());
+    timer =
+        Timer.periodic(const Duration(minutes: 1), (Timer t) => setState_());
   }
 
   @override
@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(
                   width: screenWidth,
-                  height: screnHeight / 1.55,
+                  height: screnHeight - 220.h, // 1.50,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {

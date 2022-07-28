@@ -22,6 +22,8 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  List<dynamic> listOfPosts_ = [];
+
   List<Catigory> catigories = [
     Catigory('All'),
     Catigory('facebook'),
@@ -32,18 +34,17 @@ class _PostsState extends State<Posts> {
 
   getPosts() {
     listOfPost();
-    posts = ListOfPosts;
-    print("I am getting posts and roin your memory");
-    setState(() {
-      listOfPost();
-    });
+    posts =
+        categorize(ListOfPosts, posts!, selectedCatigory ?? catigories.first);
+    print("I am refreshing posts and killing your performance!");
+    setState(() {});
   }
 
   Catigory? selectedCatigory;
   @override
   Widget build(BuildContext context) {
+    // selectedCatigory = catigories.first;
     getPosts();
-
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -108,6 +109,8 @@ class _PostsState extends State<Posts> {
                   }).toList(),
                   onChanged: (v) {
                     selectedCatigory = v;
+                    posts = categorize(listOfPosts_, posts!, selectedCatigory!);
+
                     setState(() {});
                   }),
             ),
@@ -170,4 +173,23 @@ class Catigory {
   String? catigoryName;
 
   Catigory(this.catigoryName);
+}
+
+categorize(List oldPosts, List newPosts, Catigory catigory) {
+  if (catigory.catigoryName == 'facebook') {
+    newPosts = oldPosts.where((element) {
+      return element.type == 1;
+    }).toList();
+  } else if (catigory.catigoryName == 'instagram') {
+    newPosts = oldPosts.where((element) {
+      return element.type == 2;
+    }).toList();
+  } else if (catigory.catigoryName == 'twitter') {
+    newPosts = oldPosts.where((element) {
+      return element.type == 3;
+    }).toList();
+  } else {
+    newPosts = oldPosts;
+  }
+  return newPosts;
 }

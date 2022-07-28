@@ -1,22 +1,46 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DSPost extends StatelessWidget {
+class DSPost extends StatefulWidget {
   dynamic post;
   double screenWidth;
   DSPost(this.post, this.screenWidth);
 
   @override
+  State<DSPost> createState() => _DSPostState();
+}
+
+class _DSPostState extends State<DSPost> {
+  setState_() {
+    setState(() {});
+  }
+
+  Timer? timer;
+  @override
+  void initState() {
+    mounted
+        ? {
+            super.initState(),
+            timer = Timer.periodic(
+                const Duration(minutes: 1), (Timer t) => setState_())
+          }
+        : {};
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String content = post.content!;
-    String imagePath = post.imagePath!;
-    String typeImage = post.typeImage();
-    String? stillTime = post.isTimed ? post.stillTime() : null;
+    String content = widget.post.content!;
+    String imagePath = widget.post.imagePath!;
+    String typeImage = widget.post.typeImage();
+    String? stillTime = widget.post.isTimed ? widget.post.stillTime() : null;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
-      width: screenWidth - 80.w,
+      width: widget.screenWidth - 80.w,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
@@ -28,8 +52,7 @@ class DSPost extends StatelessWidget {
       child: Column(
         children: [
           dueOn(stillTime),
-          ConstrainedBox(
-            constraints: BoxConstraints(minHeight: screenWidth - 190.w),
+          SizedBox(
             child: imagePreview(imagePath),
           ),
           SizedBox(
@@ -126,10 +149,10 @@ Widget sharingDate(bool isTimed, DateTime? dueOn) {
       ? Row(
           children: [
             Text("SharingDate".tr()),
-            Text(DateFormat.yMMMMEEEEd().format(dueOn!))
+            Text(DateFormat.jm().add_yMMMEd().format(dueOn!))
           ],
         )
-      : SizedBox();
+      : const SizedBox();
 
   return widget;
 }
@@ -137,6 +160,10 @@ Widget sharingDate(bool isTimed, DateTime? dueOn) {
 imagePreview(String path) {
   Widget widget;
   path.isEmpty || path == ''
-      ? widget = Image.asset('assets/images/twitter.png')
-      : Image.asset(path);
+      ? {
+          widget = Image.asset('assets/images/twitter.png'),
+          print("is emptry or")
+        }
+      : widget = Image.file(File(path), fit: BoxFit.contain);
+  return widget;
 }

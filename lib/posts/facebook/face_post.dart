@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -58,7 +59,7 @@ class FacePost extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: imagePath == null || imagePath == ''
                     ? const SizedBox()
-                    : Image.asset(imagePath),
+                    : Image.file(File(imagePath)),
               ),
               Divider(),
               Row(
